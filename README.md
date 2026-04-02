@@ -6,7 +6,11 @@
   <img src="ReadMeImages/javascript-logo.png" alt="JavaScript Logo" height="100">
 </p>
 
+---
+
 <h2 align="center">Notes Synopsis</h2>
+
+---
 
 <h3 align="center">Types of Performance Testing</h3>
 
