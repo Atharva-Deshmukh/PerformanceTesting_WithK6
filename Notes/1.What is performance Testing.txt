@@ -1,0 +1,4 @@
+What is Performance Testing?
+- A type of software testing that evaluates how well an application 
+  performs under expected and peak workloads. 
+- It helps identify performance issues before release.
