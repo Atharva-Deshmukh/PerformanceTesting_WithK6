@@ -1,0 +1,28 @@
+                                        Standard academic hierarchy:
+                                        ----------------------------
+
+Performance Testing
+ ├── Load Testing
+ ├── Stress Testing
+ ├── Spike Testing
+ ├── Soak / Endurance Testing
+ └── ...
+
+ Here, Load Testing is just ONE type of performance testing
+
+                        Practical hierarchy (practical tool + engineering perspective):
+                        ---------------------------------------------------------------
+
+Load Testing (umbrella in practice)
+ ├── Smoke test
+ ├── Average load test
+ ├── Stress test
+ ├── Soak test
+ ├── Spike test
+ └── Breakpoint test
+
+All of these are ways to apply load, So they group them under “load testing”
+
+
+What is final then?
+- There is NO universal naming standard
