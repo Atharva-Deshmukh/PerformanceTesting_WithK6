@@ -1,0 +1,8 @@
+Its perfomed with minimial load to make sure the system is working.
+Its kind of sanity testing.
+It Helps establish a baseline before running expensive load tests
+
+Virtual Users: 1-2
+Duration:      (1-5) mins
+When to run:   After deployment of new builds
+               It stimulates 1-2 users browing a webpage
