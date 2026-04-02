@@ -6,3 +6,10 @@ Virtual Users: 1-2
 Duration:      (1-5) mins
 When to run:   After deployment of new builds
                It stimulates 1-2 users browing a webpage
+
+Typical K6 config:
+
+export let options = {
+    vus: 2,         // 2 Virtual Users
+    duration: '1m'  // Run for 1 min
+}
