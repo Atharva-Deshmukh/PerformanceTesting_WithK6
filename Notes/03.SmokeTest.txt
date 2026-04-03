@@ -6,7 +6,7 @@ It Helps establish a baseline before running expensive load tests
 Virtual Users: 1-2
 Duration:      (1-5) mins
 When to run:   Immediately when we get a new build
-               It stimulates 1-2 users browing a webpage
+               It stimulates 1-2 users browsing a webpage
 
                                                 Typical K6 config:
                                                 ------------------
