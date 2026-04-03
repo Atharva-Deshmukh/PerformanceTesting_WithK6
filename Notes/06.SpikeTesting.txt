@@ -1,0 +1,23 @@
+- Validate the behavior and survival of your system in cases of sudden
+  increase in load in very short period.
+- Ex real world events: Flash sales, breaking news or some viral posts
+- It validates the auto-scaling of the system
+- It helps to assess recovery time after spike
+
+
+                                                Typical K6 config:
+                                                ------------------
+
+export let options = {
+    stages = [
+        { duration: '2m', target: 50 },    // Normal Load
+        { duration: '30s', target: 500 },  // Sudden spike
+        { duration: '3m', target: 500 },   // Sustain stress
+        { duration: '30s', target: 50 },   // Drop back
+        { duration: '2m', target: 50 },    // Recovery period
+    ],
+    thresholds: {
+        http_req_duration: ['p(95) < 2000'], // 95% unders 2s
+        http_req_failed:   ['rate < 0.1'],  // Less than 10% errors
+    }
+}
