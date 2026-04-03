@@ -8,7 +8,8 @@ Duration:      (1-5) mins
 When to run:   Immediately when we get a new build
                It stimulates 1-2 users browing a webpage
 
-Typical K6 config:
+                                                Typical K6 config:
+                                                ------------------
 
 export let options = {
     vus: 2,         // 2 Virtual Users
