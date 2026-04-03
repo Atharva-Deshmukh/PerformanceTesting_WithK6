@@ -30,6 +30,8 @@ export default function() {
    /* Lets understand the report generated in the terminal
       ---------------------------------------------------
 
+      NOTE: Run the test first in terminal
+
         default: 3 looping VUs for 10s (gracefulStop: 30s) -> this is obvious
         total time taken > 30s. 5s here and there for rampup and graceful stop
 
