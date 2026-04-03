@@ -1,0 +1,20 @@
+{
+  "name": "performancetesting_withk6",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">Performance Testing Learning Repo with K6</h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Atharva-Deshmukh/PerformanceTesting_WithK6.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Atharva-Deshmukh/PerformanceTesting_WithK6/issues"
+  },
+  "homepage": "https://github.com/Atharva-Deshmukh/PerformanceTesting_WithK6#readme"
+}

@@ -30,7 +30,7 @@
 <br>
 <br>
 Create a new folder and open it in VS Code. Create a new node project there using below command
-<br>
+
 ```
 npm init -y
 ```
