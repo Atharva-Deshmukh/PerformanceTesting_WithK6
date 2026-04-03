@@ -7,7 +7,12 @@ import http from 'k6/http';
  */
 export const options = {
     vus: 3,
-    duration: '10s' /* the users may complete request call in 1s but they will keep iterating till 10s limit */
+    duration: '10s', /* the users may complete request call in 1s but they will keep iterating till 10s limit */
+
+    thresholds: {
+        'http_req_duration': ['p(95) < 100'],
+        'http_req_failed': ['rate < 0.5']  // meaning we accept uptp 50% failure rate
+    }
 }
 
 /* It will be picked up by k6 as the entry point for the test script. 
@@ -111,7 +116,55 @@ When to use which?
 ------------------
 - p(90) — more lenient, tolerates 10% slow requests. Good for internal/non-critical services.
 - p(95) — industry standard for SLAs. Most production systems target this.
-- p(99) — strictest, used for critical systems (payments, auth). Catches rare but severe slowdowns.      
-   
+- p(99) — strictest, used for critical systems (payments, auth). Catches rare but severe slowdowns. 
+
+
+{ expected_response:true }:
+ -------------------------
+ - When a request fails, it doesn't take much time to start next iteration
+ - When a request passes, it takes more time since we also need to wait and process response
+ - Hence, if failed requests are included in P(90).., then we may get misleading metrics
+ - expected_response: true metric filters out and calculates p(90)..max, min for success requests only
+   not for failed requests
+
+iteration_duration.............: avg=1.45s    min=1.31s    med=1.32s    max=2.18s    p(90)=2.18s    p(95)=2.18s
+- Iteration duration means time taken for the default function block's execution in one iteration, 
+  regardless of number of lines of code in the function
+- Here sleep() time is also included, earlier in max, min,.. we had only request's full time
+
+Now, we don't always need to see full response and every metric and then decide,
+we can define our own thresholds and analyse only the filtered responses
+
+After configuring thresholds {} and running script again, we have a new item added in report in terminal
+
+█ THRESHOLDS
+
+    http_req_duration
+    ✗ 'p(95) < 100' p(95)=427.04ms
+
+Threshold for requests failed:
+- Terminal -> http_req_failed................: 0.00%  0 out of 21
+- Its a rate metric, calculated from 0-1
+  21/21 fails means its 1
+
+Outcome	Calculation	   Rate value
+--------------------------------------
+0 out of 21 failed	  0 / 21	0.00
+10 out of 21 failed	  10 / 21	0.476
+11 out of 21 failed	  11 / 21	0.524
+21 out of 21 failed	  21 / 21	1.00
+
+Your rate = 0.00, and the threshold checks 0.00 < 0.5 → true → ✓ passes.
+
+█ THRESHOLDS
+
+    http_req_duration
+    ✗ 'p(95) < 100' p(95)=402.41ms
+
+    http_req_failed
+    ✓ 'rate < 0.5' rate=0.00%
+
+
+
    
 */
