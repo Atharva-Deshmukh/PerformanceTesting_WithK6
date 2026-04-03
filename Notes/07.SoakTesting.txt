@@ -1,0 +1,49 @@
+- assess the reliability and performance of your system over extended periods.
+- These tests the behaviour of application resulting from prolonged use
+  => Memory Leaks
+     (A memory leak occurs when a program fails to release memory that 
+     is no longer needed, gradually reducing available system memory 
+     and potentially causing performance issues or crashes.)
+  => database connection exhaustion
+  => log file growth
+
+  Purpose:
+  - Identify degradation over time
+  - Test database connection pooling
+    (Instead of creating and closing a new connection for every database
+     request, the pool keeps a set of open connections that can be reused, 
+     significantly reducing the overhead associated with establishing 
+      connections.)
+  - Validate log rotation and disk space management
+
+We need to know atleast the benchmarks, hence this type of testing is done
+
+Real World Ex:
+- Banking application needs to run 24/7 without restarts. 
+  A soak test should run for 8-24 hrs to ensure no memory leaks, 
+  DB connection pool issue or gradual performance degradation occurrs.
+
+Do soak testing when we get the following questions from the stakeholders:
+- Memory Leaks causing gradual slowdowns
+- DB connection pools exhaustion
+- Logs filling up disk space
+- Cache invalidation issues
+  (Cache invalidation ensures that outdated or stale data in the cache 
+   is removed or updated when the underlying data source changes.)
+- Gradual degradation of response time
+
+
+                                                Typical K6 config:
+                                                ------------------
+
+export let options = {
+    stages = [
+        { duration: '5m', target: 50 },    // Ramp to normal load
+        { duration: '8h', target: 50 },    // Soak for 8 hours
+        { duration: '5m', target: 0 },    // Ramp down
+    ],
+    thresholds: {
+        http_req_duration: ['p(95) < 1000'], // Must stau consistent
+        http_req_failed:   ['rate < 0.05'],  // Low error rate thoughput
+    }
+}
