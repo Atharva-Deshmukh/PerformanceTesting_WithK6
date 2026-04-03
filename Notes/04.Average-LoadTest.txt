@@ -1,4 +1,5 @@
 - assess how your system performs under expected normal and peak load conditions.
+- We test around the already known application load capacity
 - Here we simulate realistic traffic patterns -> Gradual ramp up to normal load, a peak period, and a 
   graceful ramp down.
   30 mins total duration is sufficient to provide performance related data  
