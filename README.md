@@ -65,4 +65,57 @@ npm install --save-dev @types/k6
 ```
 This was the reason we created a node project even though we don't need node to run k6
 
+<h3> Website that K6 has provided to test performance </h3>
+
+```
+https://quickpizza.grafana.com/
+```
+
+Command to run K6 -> k6 run Filepath from root
+
+```
+
+PS C:\REPOS\PerformanceTesting_WithK6\PerformanceTesting_WithK6> k6 run Tests/Test-01.js
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: Tests/Test-01.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 3 max VUs, 40s max duration (incl. graceful stop):
+              * default: 3 looping VUs for 10s (gracefulStop: 30s)
+
+
+
+  █ TOTAL RESULTS
+
+    HTTP
+    http_req_duration..............: avg=334.78ms min=310.23ms med=320.62ms max=374.45ms p(90)=373.94ms p(95)=374.45ms
+      { expected_response:true }...: avg=334.78ms min=310.23ms med=320.62ms max=374.45ms p(90)=373.94ms p(95)=374.45ms
+    http_req_failed................: 0.00%  0 out of 21
+    http_reqs......................: 21     2.061495/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.45s    min=1.31s    med=1.32s    max=2.18s    p(90)=2.18s    p(95)=2.18s
+    iterations.....................: 21     2.061495/s
+    vus............................: 3      min=3       max=3
+    vus_max........................: 3      min=3       max=3
+
+    NETWORK
+    data_received..................: 83 kB  8.2 kB/s
+    data_sent......................: 6.3 kB 619 B/s
+
+
+
+                                                                                                                                        
+running (10.2s), 0/3 VUs, 21 complete and 0 interrupted iterations                                                                      
+default ✓ [======================================] 3 VUs  10s 
+```
+
 
