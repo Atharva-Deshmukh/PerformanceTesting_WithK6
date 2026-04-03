@@ -1,0 +1,31 @@
+- We push the system beyond the normal operational capacity to identify the 
+  breaking points and observe system behaviour under extreme load conditions
+- Purpose: Determine maximum system capacity after which system fails
+           Validate how systems recovers after failure
+
+
+Do stress testing when we get the following questions from the stakeholders:
+- What is the maximum capacity?
+- How does the system fails (gracefully or catastrophically)?
+- Can the system recover automatically? (we will know this by breaking the system)
+- What errors occur under the extreme load?
+
+
+                                                Typical K6 config:
+                                                ------------------
+
+export let options = {
+    stages = [
+        { duration: '5m', target: 100 },   // Ramp up to application's normal Load
+        { duration: '5m', target: 200 },   // Above normal
+        { duration: '5m', target: 300 },   // Higher stress
+        { duration: '5m', target: 400 },   // Even Higher
+        { duration: '5m', target: 500 },   // Maximum stress
+        { duration: '10m', target: 500 },  // Sustain peak-stress
+        { duration: '5m', target: 0 },     // Recover
+    ],
+    thresholds: {
+        http_req_duration: ['p(95) < 1000'], // 95% unders 1s
+        http_req_failed:   ['rate < 0.05'],  // Less than 5% errors
+    }
+}
