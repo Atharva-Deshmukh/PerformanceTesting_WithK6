@@ -11,7 +11,7 @@ export const options = {
 
     thresholds: {
         'http_req_duration': ['p(95) < 100'],
-        'http_req_failed': ['rate < 0.5']  // meaning we accept uptp 50% failure rate
+        'http_req_failed': ['rate < 0.5']  // meaning we accept upto 50% failure rate
     }
 }
 
@@ -163,8 +163,4 @@ Your rate = 0.00, and the threshold checks 0.00 < 0.5 → true → ✓ passes.
 
     http_req_failed
     ✓ 'rate < 0.5' rate=0.00%
-
-
-
-   
 */
