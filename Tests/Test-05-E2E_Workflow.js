@@ -81,7 +81,7 @@ export default function() {
                }
             */
 
-            "Status is 201": (r) => { return r.status == 200 },
+            "Status is 201": (r) => { return r.status == 201 },
             "Response Contains valid UserId": (r) => { return r.json('id') !== undefined },
             "Response Contains payload username": (r) => { return r.json('username') == USERNAME },
 
@@ -99,7 +99,7 @@ export default function() {
             */
         });
 
-        if (userRegistrationSuccess) {
+        if (userRegistrationSuccess === true) {
             console.log(`User ${USERNAME} Registered!`);
         }
         else console.error(`User Registration Failed. User: ${USERNAME} | ${userRegistrationResp.status} - ${userRegistrationResp.body}`);
