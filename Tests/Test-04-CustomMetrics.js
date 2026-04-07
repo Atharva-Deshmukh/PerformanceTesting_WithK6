@@ -63,6 +63,16 @@ Outputs include:
     Percentiles (e.g., p(95), p(99))
 
 
+    +-------------------+---------+---------------------------+-------------------------------------------+
+    | Metric            | Class   | Threshold keyword         | What it shows                             |
+    +-------------------+---------+---------------------------+-------------------------------------------+
+    | Trend  (Test-04)  | Trend   | p(95), avg, min, max      | Statistical distribution of all values    |
+    | Rate   (Test-09)  | Rate    | rate                      | Proportion (0–1) of true vs false         |
+    | Counter(Test-10)  | Counter | count                     | Cumulative total                          |
+    | Gauge  (Test-11)  | Gauge   | value                     | Latest snapshot (also shows min/max)      |
+    +-------------------+---------+---------------------------+-------------------------------------------+
+
+
 
 */
 
