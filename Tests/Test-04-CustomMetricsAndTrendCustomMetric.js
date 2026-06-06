@@ -1,7 +1,4 @@
-/* Theory: 
-
-k6 classifies metrics into four main types, each serving a different 
-purpose: 
+/* Four main types
 
                                     Counter
                                     -------
@@ -71,11 +68,7 @@ Outputs include:
     | Counter(Test-10)  | Counter | count                     | Cumulative total                          |
     | Gauge  (Test-11)  | Gauge   | value                     | Latest snapshot (also shows min/max)      |
     +-------------------+---------+---------------------------+-------------------------------------------+
-
-
-
 */
-
 
 import { sleep, check } from 'k6';
 import http from 'k6/http';
