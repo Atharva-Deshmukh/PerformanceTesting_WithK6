@@ -1,6 +1,18 @@
 import { sleep, check } from 'k6';
 import http from 'k6/http';
 
+/* Tags:
+- Whatever metrics like p(90)..max, min, we got in terminal response, 
+  it was for total http request durations, not any specific request call.
+- Till now, we had only one request, so it was easy to monitor that request.
+  But, if we have multiple requests, then its difficult to track which request perfomed poorly
+  as all the metrics are for ALL the requests
+
+- To monitor individual requests and know the bottlenecks, we tag the requests.
+- There is a second parameter in http.get(), which is an object, it has tags property where
+  we can give tag name
+- We then need to add this tag name in the thresholds {}
+*/
 
 export const options = {
 
@@ -17,19 +29,6 @@ export const options = {
         'http_req_failed{name: REQ_2}': ['rate < 0.1'], // check if this specific request failed more then 10%
     }
 }
-
-/* Tags:
-- Whatever metrics like p(90)..max, min, we got in terminal response, 
-  it was for total http request durations, not any specific request call.
-- Till now, we had only one request, so it was easy to monitor that request.
-  But, if we have multiple requests, then its difficult to track which request perfomed poorly
-  as all the metrics are for ALL the requests
-
-- To monitor individual requests and know the bottlenecks, we tag the requests.
-- There is a second parameter in http.get(), which is an object, it has tags property where
-  we can give tag name
-- We then need to add this tag name in the thresholds {}
-*/
 
 export default function() {
     http.get('https://quickpizza.grafana.com/', {
