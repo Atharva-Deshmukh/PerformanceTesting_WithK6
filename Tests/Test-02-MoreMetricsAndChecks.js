@@ -1,6 +1,26 @@
 import { sleep, check } from 'k6';
 import http from 'k6/http';
 
+/* Checks:
+- Just like we put validations at the metric level using thresholds, we can put assertions/checks 
+  at function level to check if the functionality is working correctly in the first place or not.
+- Sometimes, GET can return 200 status quickly since login failed, and thresholds still pass as max reduced
+  But this is incorrect behaviour and we need to validate this.
+
+  syntax:
+    check(val, { 'what we are looking/asserting for': anonymous function})
+
+  val -> value we want to add assertions on
+  callbacks -> anonymous functions or we use arrow functions here for short syntax, 
+               assertions are written inside this
+
+  there can be many such key-value pairs
+
+
+  Even after declaring checks, the thresholds will decide if the scripts will pass or fail, hence
+  add checks metric in thresholds {} also
+*/
+
 
 export const options = {
     
@@ -42,26 +62,6 @@ export const options = {
         */
     }
 }
-
-/* Checks:
-- Just like we put validations at the metric level using thresholds, we can put assertions/checks 
-  at function level to check if the functionality is working correctly in the first place or not.
-- Sometimes, GET can return 200 status quickly since login failed, and thresholds still pass as max reduced
-  But this is incorrect behaviour and we need to validate this.
-
-  syntax:
-    check(val, { 'what we are looking/asserting for': anonymous function})
-
-  val -> value we want to add assertions on
-  callbacks -> anonymous functions or we use arrow functions here for short syntax, 
-               assertions are written inside this
-
-  there can be many such key-value pairs
-
-
-  Even after declaring checks, the thresholds will decide if the scripts will pass or fail, hence
-  add checks metric in thresholds {} also
-*/
 
 export default function() {
     const response = http.get('https://quickpizza.grafana.com/');
