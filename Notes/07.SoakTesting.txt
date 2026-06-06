@@ -16,8 +16,9 @@
       will rename it, create a new file with 
       the original name, and continue writing events to the new file. The application 
       may compress the older log file, archive it, or even delete it.)
-
-We need to know atleast the benchmarks, hence this type of testing is done
+  => Cache invalidation issues
+     (Outdated or stale data in the cache 
+      is removed or updated when the underlying data source changes.)
 
 Real World Ex:
 - Banking application needs to run 24/7 without restarts. 
@@ -29,9 +30,6 @@ Do soak testing when we get the following questions from the stakeholders:
 - DB connection pools exhaustion
 - Logs filling up disk space
 - Cache invalidation issues
-  (Cache invalidation ensures that outdated or stale data in the cache 
-   is removed or updated when the underlying data source changes.)
-- Gradual degradation of response time
 
 
                                                 Typical K6 config:
