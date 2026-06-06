@@ -1,7 +1,10 @@
 - Validate the behavior and survival of your system in cases of sudden
   increase in load in very short period.
-- Ex real world events: Flash sales, breaking news or some viral posts
+
+- Ex Flash sales, breaking news or some viral posts
+
 - It validates the auto-scaling of the system
+
 - It helps to assess recovery time after spike
 
 

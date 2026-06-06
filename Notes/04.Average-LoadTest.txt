@@ -1,9 +1,8 @@
-- assess how your system performs under expected normal and peak load conditions.
 - We test around the already known application load capacity
-- Here we simulate realistic traffic patterns -> Gradual ramp up to normal load, a peak period, and a 
-  graceful ramp down.
-  30 mins total duration is sufficient to provide performance related data  
-  We share the response times data with the upper shareholders then
+
+- assess how your system performs under expected normal and peak load conditions.
+
+- We share the response times data with the upper shareholders then
 
 VUs: 10-100
 Duration: 5 - 30 mins
@@ -16,8 +15,8 @@ When to Run: in pre-prod env, before pushing major changes
 
 export let options = {
     stages = [
-        { duration: '5m', target: 50 },   // Ramp up to 50 users
-        { duration: '10m', target: 50 },  // Stay at 50 users
+        { duration: '5m', target: 50 },   // Ramp up to 50 users over the next 5 minutes
+        { duration: '10m', target: 50 },  // Stay at 50 users for the next 10 minutes
         { duration: '5m', target: 100 },  // Ramp up to peak of 100 users
         { duration: '10m', target: 100 },  // Stay at peak
         { duration: '5m', target: 0 },  // Ramp-down to 0

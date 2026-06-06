@@ -1,20 +1,21 @@
-- assess the reliability and performance of your system over extended periods.
-- These tests the behaviour of application resulting from prolonged use
+- Assess the reliability and performance of your system over extended periods.
+
+- Tests the behaviour of application resulting from prolonged use
   => Memory Leaks
      (A memory leak occurs when a program fails to release memory that 
      is no longer needed, gradually reducing available system memory 
      and potentially causing performance issues or crashes.)
-  => database connection exhaustion
-  => log file growth
-
-  Purpose:
-  - Identify degradation over time
-  - Test database connection pooling
-    (Instead of creating and closing a new connection for every database
+  => database connection pool exhaustion
+     (Instead of creating and closing a new connection for every database
      request, the pool keeps a set of open connections that can be reused, 
      significantly reducing the overhead associated with establishing 
-      connections.)
-  - Validate log rotation and disk space management
+     connections.)
+  => log file growth, log rotation and disk space management
+     (Log rotation is process of controlling the size of log files. When an existing log file 
+      reaches a certain threshold size, age, or number of records, the associated application 
+      will rename it, create a new file with 
+      the original name, and continue writing events to the new file. The application 
+      may compress the older log file, archive it, or even delete it.)
 
 We need to know atleast the benchmarks, hence this type of testing is done
 
@@ -43,7 +44,7 @@ export let options = {
         { duration: '5m', target: 0 },    // Ramp down
     ],
     thresholds: {
-        http_req_duration: ['p(95) < 1000'], // Must stau consistent
+        http_req_duration: ['p(95) < 1000'], // Must stay consistent
         http_req_failed:   ['rate < 0.05'],  // Low error rate thoughput
     }
 }

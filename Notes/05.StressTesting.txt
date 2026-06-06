@@ -1,15 +1,11 @@
-- We push the system beyond the normal operational capacity to identify the 
-  breaking points and observe system behaviour under extreme load conditions
 - Purpose: Determine maximum system capacity after which system fails
-           Validate how systems recovers after failure
-
+           Validate how systems behaves and recovers after failure
 
 Do stress testing when we get the following questions from the stakeholders:
 - What is the maximum capacity?
 - How does the system fails (gracefully or catastrophically)?
 - Can the system recover automatically? (we will know this by breaking the system)
 - What errors occur under the extreme load?
-
 
                                                 Typical K6 config:
                                                 ------------------
