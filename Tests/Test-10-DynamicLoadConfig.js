@@ -12,7 +12,7 @@ import http from 'k6/http';
 const testConfig = JSON.parse(open('../test-config.json'));
 
 /* Read TEST_TYPE from environment variable. Defaults to 'smoke' if not set.
-   Usage: k6 run -e TEST_TYPE=spike Tests/Test-15-DynamicLoadConfig.js
+   Command: k6 run -e TEST_TYPE=spike Tests/Test-15-DynamicLoadConfig.js
    Valid values: smoke, averageLoad, spike, soak
 */
 const testType = __ENV.TEST_TYPE || 'smoke';  // tests will be run on smoke config by default
