@@ -33,6 +33,10 @@ export const options = {
        In below tests: 
        - we are parallely putting load on the URL via API
        - and we are parallely hitting URL from browser also
+
+       - These two scenarios start simultaneously and run concurrently. 
+       - But the VUs from one scenario never execute the other scenario's function. They're completely isolated.
+       - To stagger scenarios (not start at the same time), use startTime.
     */
     scenarios: {
 
@@ -74,6 +78,7 @@ export const options = {
             exec: 'backEndStress',
             vus: 20,
             duration: '1m',
+            // startTime: '1m',   // starts 1 minute after test begins (after browserTests finishes)
         }
 
     },
