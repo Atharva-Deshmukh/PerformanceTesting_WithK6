@@ -7,7 +7,6 @@ that's why you see identical patterns like browser.newContext(), page.goto(), pa
 
 k6 uses Chrome DevTools Protocol (CDP) with a Playwright-inspired API for browser automation
 
-
 Our UI test workflow:
 - visit: https://rahulshettyacademy.com/locatorspractice/
 - Login (rahul, rahulshettyacademy)
@@ -37,7 +36,10 @@ export const options = {
     */
     scenarios: {
 
-        /* We have written playwright like scripts for this one */
+        /* We can name these objects anything, The scenario name appears in the terminal output as a label:
+           backendTest ✓ [======================================] 20 VUs  1m0s
+           uiTest      ✓ [======================================] 2 VUs   0m13.9s/1m0s  4/4 shared iters
+        */
         uiTest: {
 
             /* this shared-iterations executor distributes iterations among the vus mostly equally
@@ -61,7 +63,7 @@ export const options = {
                     type: 'chromium',
                     headless: false
 
-                    /* If we have other details, like SSL certificates, we can give that here */
+                    /* other details like SSL certificates... */
                 }
             }
         },
@@ -81,7 +83,7 @@ export const options = {
     }
 }
 
-/* UI Tests */
+/* UI Tests - Playwright-like scripts */
 export async function browserTests() {
 
     const context = await browser.newContext();  /* Open a fresh new incognito window */
