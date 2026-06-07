@@ -1,39 +1,45 @@
 /*                                              Important Web vitals
+                                                --------------------
 
 
-First Contentful Paint (FCP):
-- It measures time until the first text/image appears on the page (generally after the first pixel visible)
-- For User: When Will I see anything on the page?
+                                            First Contentful Paint (FCP):
 
-- Add in threshold{}: browser_web_vital_fcp: ['p(95) < 3000'],
+- Measures time until the first text/image appears on the page (generally after the first pixel visible)
+- User: When Will I see anything on the page?
+- threshold {
+    browser_web_vital_fcp: ['p(95) < 3000'],
+  }
 
-Largest Contentful Paint (LCP):
-- It measures time until the largest visible content element is measured
-- For User: When is the main content visible?
+                                           Largest Contentful Paint (LCP):
+
+- Measures time until the largest visible content element is measured
+- User: When is the main content visible?
 - When FCP = LCP ==> Entire component is being rendered instantly
 
-- Add in threshold{}: browser_web_vital_lcp: ['p(95) < 3000'],
+- threshold {
+    browser_web_vital_lcp: ['p(95) < 3000'],
+  }
 
-Cumulative Layout Shift (CLS):
-- Real-World Example
-  Imagine you're reading a news article on your phone. You find the paragraph you want 
+                                            Cumulative Layout Shift (CLS):
+
+- Imagine you're reading a news article on your phone. You find the paragraph you want 
   and tap a link. But right as your finger touches the screen, an ad loads above the paragraph, 
   pushing everything down. You accidentally tap the ad instead.
-
+- Quantifies visual stability — not speed.
 - When we apply load on a page heavily, page rendering is impacted heavily
 
--  It quantifies visual stability — not speed.
-   Score: It's a unitless value (not milliseconds). 
-   A good score is < 0.1**, poor is **> 0.25. 
+-  a unitless value (not milliseconds)
 
-- Add in threshold{}: browser_web_vital_cls: ['rate < 0.1'],
+- threshold {
+        browser_web_vital_cls: ['rate < 0.1'],
+  }
 
 - To keep CLS low, one way is to have reserved space for adds rather than dynamic UI rendering
 
-First Input Delay (FID):
-- FID measures how long the browser takes to respond to the user's first interaction (click, tap, key press). 
-- It captures the delay between the user's action and the browser actually starting to process it.
-- For User: How long until the page responds my click?
+                                            First Input Delay (FID):
+
+- Measures how long the browser takes to respond to the user's first interaction (click, tap, key press). 
+- User: How long until the page responds my click?
 
 Example: You open a shopping website. The page looks fully loaded — you see the "Add to Cart" 
          button and click it. But nothing happens for 500ms because the browser's main thread 
@@ -41,27 +47,23 @@ Example: You open a shopping website. The page looks fully loaded — you see th
 
 ...it can't respond to user input until the current task finishes. The user is left waiting.
 
-[====== JS parsing (long task) ======]
-                          ^ User clicks here
-                          |--- FID ---|
-                                      ^ Browser starts handling click
+- threshold {
+    browser_web_vital_fid: ['p(95) < 3000'],
+ }
 
-- Add in threshold{}: browser_web_vital_fid: ['p(95) < 3000'],
+                                           Time To First Byte (TTFB):
 
-Time To First Byte (TTFB):
-- measures the time from when the browser sends a request to when it receives the very first byte 
-of the response from the server. It reflects the server's responsiveness — everything that happens 
-before any content starts arriving.
+- Measures the time from when the browser sends a request to when it receives the very first byte 
+  of the response from the server. 
+- Reflects the server's responsiveness — everything that happens before any content starts arriving.
 
-- For User: How fast is the server?
+- User: How fast is the server?
 
-- Add in threshold{}: browser_web_vital_ttfb: ['p(95) < 3000'],
+- threshold {
+     browser_web_vital_ttfb: ['p(95) < 3000'],
+  }
 
-- In our below code, its not accurrate as we are not using any server. 
-  Use any server or just use a website to get this value accurately
-
-
-
+- In our below code, its not accurrate as we are not using any server. Use any server or just use a website to get this value accurately.
 */
 
 import { browser } from 'k6/browser';
