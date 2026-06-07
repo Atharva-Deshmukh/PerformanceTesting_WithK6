@@ -1,57 +1,20 @@
-/* Four main types
-
-                                    Counter
-                                    -------
-
-A Counter is a cumulative metric that only increases over time.
-You don’t care about individual values—just the total count.
-
-What it tracks -> Total occurrences of something
-Examples -> Number of requests sent, Number of errors
-
-Built-in example -> http_reqs → total HTTP requests made
-
-                                    Gauge
-                                    -----
-
-A Gauge represents a value at a specific point in time. 
-It can go up or down.
-It reflects the latest snapshot, not cumulative data.
-
-What it tracks -> Current state or latest value
-Examples:
-    Number of active users
-    Current memory usage
-
-Built-in example -> vus → current number of virtual users
-
-                                    Rate
-                                    ----
-
-A Rate measures the percentage of successful vs failed events.
-Values are between 0 and 1 (e.g., 0.02 = 2% failure rate).
-
-What it tracks -> Proportion of a condition being true
-Examples -> Error rate, Success rate
-
-Built-in example -> http_req_failed → proportion of failed HTTP requests
+/* Four main types:
 
                                     Trend
                                     -----
 
-A Trend stores multiple values over time and provides statistical analysis.
-This is the most important metric type for performance analysis.
-
-What it tracks -> Distribution of values
+- Stores multiple values over time and provides statistical analysis.
+- The most important metric type for performance analysis.
+- Tracks -> Distribution of values
 
 Examples:
     Response times
     Latency
     Waiting time
+    ... All time related things
 
 Built-in examples:
     http_req_duration
-    http_req_waiting
 
 Outputs include:
     Average (avg)
@@ -59,14 +22,55 @@ Outputs include:
     Maximum (max)
     Percentiles (e.g., p(95), p(99))
 
+                                    Counter
+                                    -------
+
+- A Cumulative metric that only increases over time.
+- Used when we care about just the total count.
+
+Examples:
+    Number of requests sent
+
+Built-in example:
+    http_reqs → total HTTP requests made
+
+                                    Gauge
+                                    -----
+
+- Represents a value at a specific point in time. 
+- Can go up or down.
+- Reflects the latest snapshot, not cumulative data.
+
+- Tracks -> Current state or latest value
+
+Examples:
+    Number of active users
+
+Built-in example:
+    vus → current number of virtual users
+
+                                    Rate
+                                    ----
+
+- Measures the percentage of successful vs failed events.
+- Values are between 0 and 1 (e.g., 0.02 = 2% failure rate).
+
+- Tracks -> rate of a condition being true
+
+Examples:
+    Error rate
+    Success rate
+
+Built-in example:
+    http_req_failed → proportion of failed HTTP requests
 
     +-------------------+---------+---------------------------+-------------------------------------------+
     | Metric            | Class   | Threshold keyword         | What it shows                             |
     +-------------------+---------+---------------------------+-------------------------------------------+
-    | Trend  (Test-04)  | Trend   | p(95), avg, min, max      | Statistical distribution of all values    |
-    | Rate   (Test-09)  | Rate    | rate                      | Proportion (0–1) of true vs false         |
-    | Counter(Test-10)  | Counter | count                     | Cumulative total                          |
-    | Gauge  (Test-11)  | Gauge   | value                     | Latest snapshot (also shows min/max)      |
+    | Trend             | Trend   | p(95), avg, min, max      | Statistical distribution of all values    |
+    | Rate              | Rate    | rate                      | Proportion (0–1) of true vs false         |
+    | Counter           | Counter | count                     | Cumulative total                          |
+    | Gauge             | Gauge   | value                     | Latest snapshot (also shows min/max)      |
     +-------------------+---------+---------------------------+-------------------------------------------+
 */
 
@@ -93,6 +97,7 @@ export const options = {
         'http_req_failed': ['rate < 0.1'],  
         'http_req_duration{name: REQ_2}': ['p(95) < 400'], // add threshold for specific request
         'http_req_failed{name: REQ_2}': ['rate < 0.1'], // check if this specific request failed more then 10%
+        
         'API_REQUEST_TIME': ['p(95) < 200'], // track this custom metric
         'API_RESPONSE_TIME': ['p(95) < 200'], // track this custom metric
     }
@@ -109,13 +114,9 @@ export default function() {
     apiResponseTimeCustomMetric.add(respone.timings.waiting); /* Check response time only */
     apiRequestTimeCustomMetric.add(respone.timings.sending);  /* Check request time only */
 
-    /* Since this is a Trend metric, all requests values will stack up and then we can calculate
-       max, min, p(95)...
-    */
+    /* Since this is a Trend metric, all requests values will stack up and then we can calculate max, min, p(95)... */
     
-    /* This has object with all timing related properties:
-
-        (property) Response.timings: {
+    /* response.timings: {
         blocked: number;
         connecting: number;
         tls_handshaking: number;
@@ -125,16 +126,6 @@ export default function() {
         duration: number;
 
         duration: number -> Total time in milliseconds. sending + waiting + receiving
-
-        Duration = sum of all below components that take place while sending http request and getting response
-        - DNS lookup
-        - TCP connection 
-        - TLS Handshake
-        - Sending http request
-        - Waiting for response while server is processing the request
-        - Recieving response (http response download)
-        }
-
         Hence: http_req_duration = respone.timings.duration
 
         To know just the response time, we will use respone.timings.waiting
