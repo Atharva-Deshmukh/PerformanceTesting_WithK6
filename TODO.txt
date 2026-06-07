@@ -1,0 +1,4 @@
+- Notes Optimise
+- Add missed out topics like Executors
+- Cover interview questions, both k6, scenario based and perf testing in general
+- CI CD k6 project separately create
