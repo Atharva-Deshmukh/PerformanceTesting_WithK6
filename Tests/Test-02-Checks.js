@@ -2,20 +2,11 @@ import { sleep, check } from 'k6';
 import http from 'k6/http';
 
 /* Checks:
-- Just like we put validations at the metric level using thresholds, we can put assertions/checks 
-  at function level to check if the functionality is working correctly in the first place or not.
-- Sometimes, GET can return 200 status quickly since login failed, and thresholds still pass as max reduced
-  But this is incorrect behaviour and we need to validate this.
 
-  syntax:
-    check(val, { 'what we are looking/asserting for': anonymous function})
-
-  val -> value we want to add assertions on
-  callbacks -> anonymous functions or we use arrow functions here for short syntax, 
-               assertions are written inside this
-
-  there can be many such key-value pairs
-
+- Just like we put validations at the metric level using thresholds, we can put assertions/checks at function level 
+  to check if the functionality is working correctly in the first place or not.
+- Sometimes, GET can return 200 status even when response body is empty, thresholds still pass as max reduced.
+  this is misleading
 
   Even after declaring checks, the thresholds will decide if the scripts will pass or fail, hence
   add checks metric in thresholds {} also
@@ -24,7 +15,7 @@ import http from 'k6/http';
 
 export const options = {
     
-    /* Lets create stages this time instead of single load configuration 
+    /* Lets create stages[] this time instead of single load configuration 
 
         For smoke tests only, we use object {vus, duration},
         else everywhere we use stages[]
@@ -36,13 +27,12 @@ export const options = {
     ],
 
     thresholds: {
-        'http_req_duration': ['p(95) < 400'],   // Lets keep some realistic number this time
+        'http_req_duration': ['p(95) < 400'], 
         'http_req_failed': ['rate < 0.1'],      // meaning we accept upto 10% failure rate
         'checks': ['rate > 0.9']                // More than 90% checks/assertions should pass
-        /* With checks added in thresholds, now the test is also functionally validating, rather than just
-           only metric-level validation
-           Whenever we analyse the report, we first see if checks pass, this makes sure the thresholds metrics 
-           are reliable
+
+        /* With checks added in thresholds, now the test is metric-level validation + functionally validating.
+           Whenever we analyse the report, we first see if checks pass, this makes sure the thresholds metrics are reliable
         
         Output after script run:
 
@@ -58,7 +48,6 @@ export const options = {
             ✓ 'rate < 0.1' rate=0.00%
         
             If many checks fail, it means our system is not able to handle the given load
-        
         */
     }
 }
