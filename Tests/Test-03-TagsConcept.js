@@ -2,15 +2,11 @@ import { sleep, check } from 'k6';
 import http from 'k6/http';
 
 /* Tags:
-- Whatever metrics like p(90)..max, min, we got in terminal response, 
-  it was for total http request durations, not any specific request call.
-- Till now, we had only one request, so it was easy to monitor that request.
-  But, if we have multiple requests, then its difficult to track which request perfomed poorly
-  as all the metrics are for ALL the requests
+- Whatever metrics we got in terminal response, it was for total http request durations, not any specific request call.
+- If we have multiple requests, then its difficult to track which specific request perfomed poorly
 
-- To monitor individual requests and know the bottlenecks, we tag the requests.
-- There is a second parameter in http.get(), which is an object, it has tags property where
-  we can give tag name
+- To monitor individual requests and KNOW THE BOTTLENECKS, we TAG the requests.
+- There is a second parameter in http.get(), which is an object, it has tags property where we can give tag name
 - We then need to add this tag name in the thresholds {}
 */
 
@@ -26,7 +22,7 @@ export const options = {
         'http_req_duration': ['p(95) < 400'],
         'http_req_failed': ['rate < 0.1'],  
         'http_req_duration{name: REQ_2}': ['p(95) < 400'], // add threshold for specific request
-        'http_req_failed{name: REQ_2}': ['rate < 0.1'], // check if this specific request failed more then 10%
+        'http_req_failed{name: REQ_2}': ['rate < 0.1'],    // check if this specific request failed more then 10%
     }
 }
 
@@ -87,6 +83,4 @@ export default function() {
 running (13.3s), 0/5 VUs, 17 complete and 0 interrupted iterations                                                  
 default ✓ [======================================] 0/5 VUs  12s                                                     
 ERRO[0013] thresholds on metrics 'http_req_duration, http_req_duration{name: REQ_2}' have been crossed
-
-
 */
