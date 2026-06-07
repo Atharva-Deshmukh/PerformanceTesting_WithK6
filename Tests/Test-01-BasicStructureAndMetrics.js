@@ -1,10 +1,10 @@
 /* http should be default export, not named export -> import { http } */
-import { sleep } from 'k6';
-import http from 'k6/http';
+import { sleep } from 'k6';   // named import
+import http from 'k6/http';   // default import
 
 /* Both options and default function should be exported so that they
-   can communicate with each other
- */
+   can communicate with each other 
+*/
 export const options = {
     vus: 3,
     duration: '10s', /* the users may complete request call in 1s but they will keep iterating till 10s limit */
@@ -15,6 +15,13 @@ export const options = {
     }
 }
 
+/* What is virtual user in K6?
+
+   In k6, a Virtual User (VU) is a lightweight JavaScript runtime instance 
+   that executes your test script independently.
+   Each VU has independent state.
+*/
+
 /* It will be picked up by k6 as the entry point for the test script. 
    It will be executed repeatedly in "iterations" for the whole duration of the test. 
 */
@@ -23,9 +30,9 @@ export default function() {
     sleep(1); /* Sleep for 1 second before the next iteration */
 }
 
-/* Each iteration roughly takes: request time + 1 second sleep 
+/* Here, each iteration roughly takes: request time + 1 second sleep 
    
-   Iterations are not pre-counted—they just keep running until time runs out.
+   Iterations are not pre-counted — they just keep running until time runs out.
 
    This means:
    - If requests are fast → more iterations
@@ -121,16 +128,20 @@ When to use which?
 
 { expected_response:true }:
  -------------------------
- - When a request fails, it doesn't take much time to start next iteration
+ - Its built-in
+
+ Why it exists?
+ - When a request fails (4xx, 5xx, timeouts), it doesn't take much time to start next iteration 
+   because no body is there to be processed
  - When a request passes, it takes more time since we also need to wait and process response
  - Hence, if failed requests are included in P(90).., then we may get misleading metrics
- - expected_response: true metric filters out and calculates p(90)..max, min for success requests only
+ - expected_response: true --> filters out and calculates p(90)..max, min for success requests only
    not for failed requests
 
 iteration_duration.............: avg=1.45s    min=1.31s    med=1.32s    max=2.18s    p(90)=2.18s    p(95)=2.18s
-- Iteration duration means time taken for the default function block's execution in one iteration, 
-  regardless of number of lines of code in the function
-- Here sleep() time is also included, earlier in max, min,.. we had only request's full time
+- time taken for the default function block's execution in one iteration, regardless of no of lines of code in the function
+- Here sleep() time is also included
+- earlier in max, min,.. we had only request's full time
 
 Now, we don't always need to see full response and every metric and then decide,
 we can define our own thresholds and analyse only the filtered responses
